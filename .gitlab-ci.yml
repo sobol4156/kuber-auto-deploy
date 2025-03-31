@@ -7,6 +7,8 @@ variables:
 
 before_script:
   - node -v
+  - corepack enable
+  - corepack prepare pnpm@latest --activate
   - pnpm install
 
 lint: 
