@@ -16,7 +16,6 @@ lint:
   image: node:$NODE_VERSION
   script: 
     - pnpm run format
-    - main
 
 build-ts:
   stage: build
