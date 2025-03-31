@@ -1,0 +1,27 @@
+stages:
+  - lint
+  - build
+
+variables:
+  NODE_VERSION: 18.14.2
+
+before_script:
+  - node -v
+  - pnpm install
+
+lint: 
+  stage: lint
+  image: node:$NODE_VERSION
+  script: 
+    - pnpm run format
+    - main
+
+build-ts:
+  stage: build
+  image: node:$NODE_VERSION
+  script:
+    - pnpm run build
+    - pnpm run type-check
+  only:
+    - merge_requests
+    - main
