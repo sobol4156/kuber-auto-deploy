@@ -8,9 +8,7 @@ variables:
 
 before_script:
   - export SHELL=/bin/bash
-  - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -  # Установим Node.js (если не установлен)
-  - apt-get update && apt-get install -y curl gnupg  # Установим curl и gnupg, если нужно
-  - curl -fsSL https://github.com/npm/corepack/releases/latest/download/corepack-v0.18.0-linux-x64.tar.gz | tar -xz -C /usr/local/bin  # Установка corepack
+  - npm install -g corepack
   - corepack enable
   - corepack prepare pnpm@latest --activate
   - pnpm install
