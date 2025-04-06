@@ -1,6 +1,7 @@
 stages:
   - lint
   - build
+  - deploy
 
 variables:
   NODE_VERSION: 18.14.2
@@ -26,3 +27,8 @@ build-ts:
   only:
     - merge_requests
     - main
+
+deploy:
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -t my-image:$CI_COMMIT_SHA -t my-image:latest .
