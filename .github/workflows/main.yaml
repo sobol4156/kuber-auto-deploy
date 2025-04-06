@@ -49,7 +49,15 @@ jobs:
     - name: Set up SSH and deploy
       run: |
         mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" | ssh-add - # Добавляем приватный ключ
         echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
+        
+        # Установим ssh-agent
+        eval $(ssh-agent -s)
+        ssh-add ~/.ssh/id_rsa  # Добавим ключ в агент
+        
+        # Убедимся, что ключ добавлен
+        ssh-add -l
+        
+        # Подключаемся и выполняем команду kubectl
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SERVER_IP "kubectl set image deployment/tg-web-app-deployment tg-web-app=$DOCKER_USERNAME/tg-web-app:$GITHUB_SHA --record"
