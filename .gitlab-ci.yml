@@ -12,7 +12,7 @@ before_script:
   - corepack prepare pnpm@latest --activate
   - pnpm install
 
-lint: 
+lint:
   stage: lint
   image: node:$NODE_VERSION
   script: 
@@ -29,6 +29,9 @@ build-ts:
     - main
 
 deploy:
+  stage: deploy
   script:
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker build -t my-image:$CI_COMMIT_SHA -t my-image:latest .
+    - docker push my-image:$CI_COMMIT_SHA
+    - docker push my-image:latest
