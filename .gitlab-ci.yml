@@ -7,12 +7,11 @@ variables:
   NODE_VERSION: 18.14.2
 
 before_script:
-  - node -v
   - corepack enable
   - corepack prepare pnpm@latest --activate
   - pnpm install
 
-lint:
+lint: 
   stage: lint
   image: node:$NODE_VERSION
   script: 
