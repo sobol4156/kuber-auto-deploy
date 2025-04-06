@@ -43,12 +43,12 @@ push:
 
 deploy:
   stage: deploy
-  image: lachlanevenson/k8s-kubectl:latest  # Образ с kubectl
+  image: ubuntu:latest
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )' 
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'  # Установка ssh-client
     - mkdir -p ~/.ssh
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP "kubectl set image deployment/tg-web-app-deployment tg-web-app=$DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA --record"
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")  # Добавление ключа
+    - ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP   # Выполнение команды на сервере
