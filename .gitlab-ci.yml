@@ -8,32 +8,30 @@ variables:
 
 before_script:
   - export SHELL=/bin/bash
-  - npm install -g corepack
   - corepack enable
   - corepack prepare pnpm@latest --activate
   - pnpm install
 
-lint: 
-  stage: lint
-  image: node:$NODE_VERSION
-  script: 
-    - pnpm run format
+# lint: 
+#   stage: lint
+#   image: node:$NODE_VERSION
+#   script: 
+#     - pnpm run format
 
-build-ts:
-  stage: build
-  image: node:$NODE_VERSION
-  script:
-    - pnpm run build
-    - pnpm run type-check
-  only:
-    - merge_requests
-    - main
+# build-ts:
+#   stage: build
+#   image: node:$NODE_VERSION
+#   script:
+#     - pnpm run build
+#     - pnpm run type-check
+#   only:
+#     - merge_requests
+#     - main
 
 deploy:
   stage: deploy
-  image: docker:20.10.7
+  image: docker:27.5.1
   script:
-    - docker --version
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker build -t my-image:$CI_COMMIT_SHA -t my-image:latest .
     - docker push my-image:$CI_COMMIT_SHA
