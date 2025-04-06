@@ -36,6 +36,6 @@ deploy:
   script:
     - docker info
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - docker build -t my-image:$CI_COMMIT_SHA -t my-image:latest .
-    - docker push my-image:$CI_COMMIT_SHA
-    - docker push my-image:latest
+    - docker build -t $DOCKER_USERNAME/my-image:$CI_COMMIT_SHA -t $DOCKER_USERNAME/my-image:latest .
+    - docker push $DOCKER_USERNAME/my-image:$CI_COMMIT_SHA
+    - docker push $DOCKER_USERNAME/my-image:latest
