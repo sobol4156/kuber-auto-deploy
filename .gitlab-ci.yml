@@ -30,17 +30,17 @@ variables:
 
 deploy:
   stage: deploy
-  # image: docker:27.5.1
-  # services:
-  #   - docker:27.5.1-dind
+  image: docker:27.5.1
+  services:
+    - docker:27.5.1-dind
   script:
-    # - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    # - docker build -t $DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA -t $DOCKER_USERNAME/tg-web-app:latest .
-    # - docker push $DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA
-    # - docker push $DOCKER_USERNAME/tg-web-app:latest
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker build -t $DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA -t $DOCKER_USERNAME/tg-web-app:latest .
+    - docker push $DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA
+    - docker push $DOCKER_USERNAME/tg-web-app:latest
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - ssh-keyscan -H $SERVER_IP >> ~/.ssh/known_host
     - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SERVER_IP "kubectl set image deployment/tg-web-app-deployment tg-web-app=$DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA --record"
-    
+  
