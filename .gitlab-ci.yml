@@ -44,7 +44,7 @@ push:
 deploy:
   stage: deploy
   image: ubuntu:latest
- before_script:
+  before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'  # Установка ssh-client
     - mkdir -p ~/.ssh
     - eval $(ssh-agent -s)
