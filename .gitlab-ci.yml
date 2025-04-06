@@ -44,10 +44,11 @@ push:
 deploy:
   stage: deploy
   image: ubuntu:latest
-  before_script:
+ before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'  # Установка ssh-client
     - mkdir -p ~/.ssh
     - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -  # Добавляем приватный ключ
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")  # Добавление ключа
