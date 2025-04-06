@@ -8,6 +8,11 @@ variables:
 
 before_script:
   - export SHELL=/bin/bash
+  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  - source ~/.nvm/nvm.sh  # Загружаем nvm
+  - nvm install $NODE_VERSION  # Устанавливаем нужную версию Node.js
+  - nvm use $NODE_VERSION  # Активируем установленную версию
+  - npm install -g corepack  # Устанавливаем corepack через npm
   - corepack enable
   - corepack prepare pnpm@latest --activate
   - pnpm install
