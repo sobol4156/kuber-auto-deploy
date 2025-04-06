@@ -8,6 +8,9 @@ variables:
 
 before_script:
   - export SHELL=/bin/bash
+  # Устанавливаем curl и bash, если их нет
+  - apk add --no-cache curl bash
+  # Устанавливаем nvm
   - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   - source ~/.nvm/nvm.sh  # Загружаем nvm
   - nvm install $NODE_VERSION  # Устанавливаем нужную версию Node.js
