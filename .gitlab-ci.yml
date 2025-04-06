@@ -7,8 +7,9 @@ variables:
   NODE_VERSION: 18.14.2
 
 before_script:
-  - apt-get update && apt-get install -y curl
-  - curl -sS https://get.pnpm.io/install.sh | sh -s
+  - export SHELL=/bin/bash  # Указываем оболочку, если она не определена
+  - corepack enable
+  - corepack prepare pnpm@latest --activate
   - pnpm install
 
 lint: 
