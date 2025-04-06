@@ -31,7 +31,10 @@ variables:
 deploy:
   stage: deploy
   image: docker:27.5.1
+  services:
+    - docker:27.5.1-dind
   script:
+    - docker info
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker build -t my-image:$CI_COMMIT_SHA -t my-image:latest .
     - docker push my-image:$CI_COMMIT_SHA
