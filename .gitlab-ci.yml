@@ -52,7 +52,5 @@ deploy:
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")  # Добавление ключа
     - ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP << 'EOF'
-        echo "Подключение прошло успешно!"
         kubectl set image deployment/tg-web-app-deployment tg-web-app=$DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA --record
-        echo "Команда выполнена на сервере"
       EOF
