@@ -43,10 +43,12 @@ push:
 
 deploy:
   stage: deploy
-  image: alpine:latest
-  script:
-    - apk update && apk add openssh
+  image: ubuntu:latest
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'  # Установка ssh-client
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
-    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SERVER_IP "kubectl set image deployment/tg-web-app-deployment tg-web-app=$DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA --record"
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")  # Добавление ключа
+    - ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP "kubectl set image deployment/tg-web-app-deployment tg-web-app=$DOCKER_USERNAME/tg-web-app:$CI_COMMIT_SHA --record"  # Выполнение команды на сервере
