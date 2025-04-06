@@ -6,7 +6,9 @@ stages:
 variables:
   NODE_VERSION: 18.14.2
 
-# before_script:
+before_script:
+    - sudo apt update -y
+    - sudo apt install -y kubectl
 #   - export SHELL=/bin/bash
 #   - corepack enable
 #   - corepack prepare pnpm@latest --activate
