@@ -1,6 +1,7 @@
 stages:
-  - lint
-  - build
+  # - lint
+  # - build
+  - push
   - deploy
 
 variables:
