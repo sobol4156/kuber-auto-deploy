@@ -31,6 +31,7 @@ build-ts:
 deploy:
   stage: deploy
   script:
+    - docker --version
     - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
     - docker build -t my-image:$CI_COMMIT_SHA -t my-image:latest .
     - docker push my-image:$CI_COMMIT_SHA
