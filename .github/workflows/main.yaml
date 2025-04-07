@@ -59,10 +59,5 @@ jobs:
         # Убедимся, что ключ добавлен
         ssh-add -l
         
-        # Установим kubectl на сервере
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SERVER_IP "curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -"
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SERVER_IP "echo 'deb https://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee -a /etc/apt/sources.list.d/kubernetes.list"
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SERVER_IP "sudo apt-get update && sudo apt-get install -y kubectl"
-        
         # Подключаемся и выполняем команду kubectl
         ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SERVER_IP "kubectl set image deployment/tg-web-app-deployment tg-web-app=$DOCKER_USERNAME/tg-web-app:$GITHUB_SHA --record"
